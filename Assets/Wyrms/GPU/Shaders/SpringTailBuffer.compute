@@ -1,0 +1,152 @@
+﻿#pragma kernel CSMain
+ 
+#define threadX 8
+#define threadY 8
+#define threadZ 8
+
+
+
+int _StrideX;
+int _StrideY;
+int _StrideZ;
+
+int _NumberTriangles;
+int _NumberTransforms;
+
+int _Set;
+
+float _Time;
+float3 _Hand1;
+float3 _Hand2;
+
+float _ScaleDown;
+float _Gooeyness;
+
+
+#define gridX (threadX * _StrideX)
+#define gridY (threadY * _StrideY)
+#define gridZ (threadZ * _StrideZ)
+
+struct Vertebrae{
+  float id;
+  float4x4 localToWorld; 
+};
+
+struct Vert{
+
+  float3 pos;
+  float3 norm;
+  float3 tan;
+  float3 color;
+  float2 uv;
+  float id;
+  
+};
+
+struct SpringVert{
+
+  float3 pos;
+  float3 ogPos;
+  float3 vel;
+  float3 norm;
+  float3 tan;
+  float3 color;
+  float2 uv;
+  float id;
+  
+};
+
+
+
+float3 springForce( float3 p1 , float3 p2 , float d ){
+
+  float3 dir = p1 - p2;
+  float l = length( dir );
+  dir = normalize( dir );
+
+  if( l < .00001 ){
+    return float3( 0,0,0);
+  }else{
+
+    float dif = l - d;
+
+    return dif * dif * float(sign(dif)) * -dir;
+  }
+
+}
+
+
+RWStructuredBuffer<SpringVert> vertBuffer;
+RWStructuredBuffer<Vert> ogVertBuffer;
+RWStructuredBuffer<Vertebrae> vertebraeBuffer;
+
+[numthreads(threadX,threadY,threadZ)]
+void CSMain (uint3 id : SV_DispatchThreadID) 
+{
+
+
+
+  int pID = id.x + id.y * gridX + id.z * gridX * gridY;
+
+  uint vertebraeID = floor( pID / _NumberTriangles );
+  uint vertID = pID % _NumberTriangles;
+
+  Vertebrae vertebrae = vertebraeBuffer[vertebraeID];
+  Vert ogVert = ogVertBuffer[vertID];
+  SpringVert vert = vertBuffer[pID];
+
+  if( _Set == 0 ){
+    
+    float sd = lerp( 1, ((float(_NumberTransforms)-vertebrae.id) / float(_NumberTransforms)) , _ScaleDown);
+    float3 fPos = mul( vertebrae.localToWorld, float4( ogVert.pos * sd * (1 + sin( -_Time * 3+ vert.id * 10)* .4 * vert.id )  ,1)).xyz;
+    float3 fNorm = normalize( mul( vertebrae.localToWorld, float4( ogVert.norm,0)).xyz);
+
+    //Vert vert = vertBuffer[pID];
+
+    //vert.pos = fPos;
+    vert.norm = fNorm;
+
+
+    float3 force = float3( 0 ,0,0);
+
+    force += springForce( vert.pos , fPos ,0) * .6;// * ((1-_Gooeyness)+.05);
+
+    /*float3 dif = vert.pos - _Hand1;
+    if( length(dif) < .3 ){
+      force += (.3-length(dif )) * normalize( dif )* .04;
+    }
+
+    dif = vert.pos - _Hand2;
+    if( length(dif) < .3 ){
+      force += (.3-length(dif )) * normalize( dif)* .04;
+    }*/
+
+    vert.vel += force;
+    vert.vel *= .9;// + .08 * _Gooeyness;
+    vert.pos += vert.vel;
+
+    //vert.pos = fPos;
+
+    vert.id = float( vertebraeID )/_NumberTransforms;
+
+
+
+  }else{
+
+    vert.pos = ogVert.pos;
+    vert.ogPos = ogVert.pos * .99;
+    vert.vel = float3( 0, 0 ,0);
+    vert.norm = ogVert.norm;
+    vert.uv = ogVert.uv;
+    vert.tan = ogVert.tan;
+    vert.color = ogVert.color;
+    //vert.id = ogVert.id; 
+
+    vert.id  = 0;
+
+
+  }
+
+
+  vertBuffer[pID] = vert;
+}

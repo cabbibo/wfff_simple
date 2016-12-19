@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{3A969DA8-D6A7-9900-D1B3-458CAFACE2EE}") = "WarkaFlarkaFlimFlam", "Assembly-CSharp.csproj", "{747BE0C7-7351-6C3F-640B-FEBE82F6B39F}"
+EndProject
+Project("{3A969DA8-D6A7-9900-D1B3-458CAFACE2EE}") = "WarkaFlarkaFlimFlam", "Assembly-CSharp-Editor.csproj", "{B920A2A7-17CC-B701-4C94-16BEFE3DDEC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{747BE0C7-7351-6C3F-640B-FEBE82F6B39F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{747BE0C7-7351-6C3F-640B-FEBE82F6B39F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{747BE0C7-7351-6C3F-640B-FEBE82F6B39F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{747BE0C7-7351-6C3F-640B-FEBE82F6B39F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B920A2A7-17CC-B701-4C94-16BEFE3DDEC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B920A2A7-17CC-B701-4C94-16BEFE3DDEC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B920A2A7-17CC-B701-4C94-16BEFE3DDEC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B920A2A7-17CC-B701-4C94-16BEFE3DDEC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
