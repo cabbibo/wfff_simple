@@ -103,6 +103,11 @@ v1 = transform.position - ball.transform.position;
     GetComponent<Rigidbody>().velocity = spinVel;
   }
 
+  public void DestroySnake(){
+    OnBallEat = null;
+    Destroy( this.gameObject);
+  }
+
   void OnCollisionEnter( Collision c ){
 
     if( c.collider.tag == "Ball"){

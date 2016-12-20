@@ -119,7 +119,7 @@ float3 hsv(float h, float s, float v)
     		float hit = 0;
 
         float val = tex2D(_TitleTexture , v.uv).a;
-        for( int i = 0; i < 20; i++){
+        for( int i = 0; i < 1; i++){
 
           float3 pos = ro + rd * (float(i) * .01 );
 

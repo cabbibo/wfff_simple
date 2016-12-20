@@ -103,7 +103,7 @@
 
       	float3 col = float3( 0 , 0 , 0 );
       	//rd = refract( rd , norm , ior );
-      	for( int i = 0; i <6; i++ ){
+      	for( int i = 0; i <3; i++ ){
       		float3 pos = ro + rd * float( i ) * .5;
 
       		float n = noise( pos * 10 + float3(0,-_Time.y* .13,0) ) * .8 + noise( pos * 50 + float3(0,-_Time.y* .1,0)) *.2 + noise( pos + float3(0,-_Time.y*.2,0) );
@@ -117,7 +117,7 @@
 
 
 
-      	col /= 10;
+      	col /= 2;
       	return col;
 			}
 
@@ -146,7 +146,7 @@
         	col = pow(length( col ), 10 );
         }
 
-        col /= 5 * length(_Ball - i.mPos);
+        col /= 20 * length(_Ball - i.mPos);
 
         //if( sin( i.mPos.x * 300 ) > 0.5 && sin( i.mPos.y * 300 ) > 0.5 && sin( i.mPos.z * 300 ) > 0.5){ col = float3(0,0,0);}	
         //col = lerp( col, float3(0,0,0), pow(1-abs(dot(i.normal , i.rd)),.8));

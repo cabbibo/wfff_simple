@@ -50,7 +50,7 @@
           float4 uv       : TEXCOORD0; 
           float3 ro       : TEXCOORD1;
           float3 rd       : TEXCOORD2;
-          float3 camPos   : TEXCOORD3;
+          float3 cam   : TEXCOORD3;
           float3 handL    :TEXCOORD4;
           float3 handR    :TEXCOORD5;
           float3 light    :TEXCOORD6;
@@ -74,7 +74,7 @@
         
         o.uv = v.texcoord;
 
-        o.camPos = _WorldSpaceCameraPos; 
+      //  o.camPos = _WorldSpaceCameraPos; 
 
         // Getting the position for actual position
         o.pos = mul( UNITY_MATRIX_MVP , v.position );
@@ -82,7 +82,8 @@
         float3 mPos = mul( unity_ObjectToWorld , v.position );
 
         o.ro = v.position;
-        o.rd = normalize(mul( unity_WorldToObject , float4( _WorldSpaceCameraPos ,1)).xyz - v.position );
+        o.rd = mul( unity_WorldToObject , float4( _WorldSpaceCameraPos ,1)).xyz - v.position;
+        o.cam = mul( unity_WorldToObject , float4( _WorldSpaceCameraPos ,1)).xyz;
         o.light = _WorldSpaceLightPos0.xyz;//normalize(mul( unity_WorldToObject , float4(_WorldSpaceLightPos0.xyz ,1)).xyz );
 
         return o;
@@ -97,25 +98,31 @@
 
 
 
-      float3 doCol( float3 ro , float3 rd ,float3 norm , float3 ior ){
+      float3 doCol( float3 ro , float3 iRD, float3 cam ,float3 norm , float3 ior ){
 
+        float3 rd = normalize( iRD);
       	float3 col = float3( 0 , 0 , 0 );
       	//rd = refract( rd , norm , ior );
-      	for( int i = 0; i <6; i++ ){
-      		float3 pos = ro + rd * float( i ) * .5;
+      	for( int i = 0; i <3; i++ ){
 
-      		float n = noise( pos * 3 + float3(0,-_Time.y* .13,0) ) * .8 + noise( pos * 10 + float3(0,-_Time.y* .1,0)) *.2 + noise( pos + float3(0,-_Time.y*.2,0) );
+          float d = float( i ) * .05;
+      		float3 pos = ro + rd * d;
+
+          float nSize = 40;
+         // if( sin( length( pos - cam ) * 20 ) > 0){ nSize = 1;}
+
+      		float n = noise( pos * nSize+   _Time.y * .1  )/( 1+  (length( iRD) + d) * 1);// + float3(0,-_Time.y* .13,0) ) * .8 + noise( pos * 10 + float3(0,-_Time.y* .1,0)) *.2 + noise( pos + float3(0,-_Time.y*.2,0) );
       			
       		//float3 dist = pos - unity_LightPosition[0];
 
-      		col+= hsv( n * 2 , .7 ,1  );
+      		col+= hsv( n * 3 * ( 1 / length( cam-pos)) + _Time.y * .1, .5 ,1  );
 
 
       	}
 
 
 
-      	col /= 10;
+      	col /= 5;
       	return col;
 			}
 
@@ -131,15 +138,15 @@
         //float3 rdB      = refract(-normalize(i.rd),i.normal,s-ior * 2); 
 
        
-        float3 col = doCol( ro , rdR , i.normal , s-ior*0);
-
+        float3 col = doCol( ro , i.rd , i.cam , i.normal , s-ior*0);
+        col = normalize( col );
        /* col += colR * float3(1,0,0);
         col += colG * float3(0,1,0);
         col += colB * float3(0,0,1);*/
 	
        // col = lerp( col, hsv(length(col) * length(col) * length(col) * 10 ,1,1), pow(1-abs(dot(i.normal , i.rd)),2));
         
-        col *= pow(length(col) ,20) * pow(1-abs(dot(i.normal , i.rd)),2) * 30;
+        col *= pow(length(col) ,20) * pow(1-abs(dot(i.normal , normalize(i.rd))),2) * .16;
         //col = float3( 1 , i.uv.x , i.uv.y );
         fixed4 color;
         //col = normalize(i.light) *.5 + .5;// -i.ro);

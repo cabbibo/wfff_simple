@@ -18,6 +18,7 @@ public class Ring : MonoBehaviour {
   public GameObject HighScore;
   public GameObject YourScore;
   public GameObject LastScore;
+  public GameObject Name;
 
   public GameObject currentSnake;
 
@@ -31,6 +32,7 @@ public class Ring : MonoBehaviour {
       Game.current = new Game();
     }
 
+    Name.GetComponent<TextMesh>().text = Game.agentName;
 
     gate.GetComponent<BallPassThrough>().OnBallPass += OnBallPass;
     floor.GetComponent<FloorCollide>().OnFloorHit += OnFloorHit;
@@ -122,8 +124,12 @@ public class Ring : MonoBehaviour {
   void restart(){
     
     foreach( GameObject snake in snakes ){
-      Destroy(snake);
+
+      snake.GetComponent<Snake>().DestroySnake();
+
     }
+
+    snakes.Clear();
     
     currentScore = 0;
     ball.GetComponent<TrailRenderer>().enabled = false;

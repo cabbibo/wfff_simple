@@ -103,10 +103,10 @@
 
       	float3 col = float3( 0 , 0 , 0 );
       	//rd = refract( rd , norm , ior );
-      	for( int i = 0; i <6; i++ ){
+      	for( int i = 0; i <3; i++ ){
       		float3 pos = ro + rd * float( i ) * .5;
 
-      		float n = noise( pos * 30 + float3(0,-_Time.y* 1.13,0) ) * .8 + noise( pos * 10 + float3(0,-_Time.y* 3.1,0)) *.2 + noise( pos + float3(0,-_Time.y*.52,0) );
+      		float n = noise( pos * 30 + float3(0,-_Time.y* 1.13,0) ) * .8;// + noise( pos * 10 + float3(0,-_Time.y* 3.1,0)) *.2 + noise( pos + float3(0,-_Time.y*.52,0) );
       			
       		//float3 dist = pos - unity_LightPosition[0];
 
@@ -117,7 +117,7 @@
 
 
 
-      	col /= 10;
+      	col /= 3;
       	return col;
 			}
 
