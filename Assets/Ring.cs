@@ -49,6 +49,9 @@ public class Ring : MonoBehaviour {
       float m = GetComponent<AudioSource>().volume;
       GetComponent<AudioSource>().volume = Mathf.Max((m - .002f),0);
       ball.GetComponent<TrailRenderer>().enabled = true;
+      if( ball.transform.position.y  < -1 ){
+        restart();
+      }
 
     }else{
       
@@ -61,7 +64,7 @@ public class Ring : MonoBehaviour {
     
     
     
-    transform.position = Random.insideUnitSphere + Vector3.up * 1.5f;
+    transform.position = Random.insideUnitSphere* .5f+ Vector3.up * 1.5f;
     transform.rotation = Random.rotation;
 
 
