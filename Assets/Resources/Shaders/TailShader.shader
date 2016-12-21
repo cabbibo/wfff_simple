@@ -140,7 +140,7 @@
         col += colG * float3(0,1,0);
         col += colB * float3(0,0,1);*/
 				if( _Asleep ==  1){
-        	col = pow(length( col ), 10 );
+        	col = pow(length( col ), 4 ) * .2;
         }
 
 	

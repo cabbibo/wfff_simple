@@ -4,6 +4,7 @@
     _MaxTraceDistance( "Max Trace Distance" , Float ) = 6.0
     _IntersectionPrecision( "Intersection Precision" , Float ) = 0.0001
      _CubeMap( "Cube Map" , Cube )  = "defaulttexture" {}
+    _Texture( "Texture" , 2D )  = "defaulttexture" {}
   }
 
 
@@ -34,6 +35,7 @@
       uniform float  _IntersectionPrecision;
       uniform float _MaxTraceDistance;
       uniform float _Asleep;
+      uniform sampler2D _Texture;
 
       uniform float3 _Ball;
 
@@ -104,9 +106,9 @@
       	float3 col = float3( 0 , 0 , 0 );
       	//rd = refract( rd , norm , ior );
       	for( int i = 0; i <3; i++ ){
-      		float3 pos = ro + rd * float( i ) * .5;
+      		float3 pos = ro + rd * float( i ) * .01;
 
-      		float n = noise( pos * 10 + float3(0,-_Time.y* .13,0) ) * .8 + noise( pos * 50 + float3(0,-_Time.y* .1,0)) *.2 + noise( pos + float3(0,-_Time.y*.2,0) );
+      		float n = noise( pos * 40 + float3(0,-_Time.y* .13,0) ) * .8 + noise( pos * 100 + float3(0,-_Time.y* .1,0)) *.2 + noise( pos * 10 + float3(0,-_Time.y*.2,0) );
       			
       		//float3 dist = pos - unity_LightPosition[0];
 
@@ -148,11 +150,16 @@
 
 
         float n = noise( i.ro * 30 + _Time.y );
-        if( .5 > n * (1.5 -abs((i.ro.y ))) ){
+        float4 t = tex2D( _Texture , i.uv );
+
+        float d = length(_Ball - i.mPos);
+        if( t.a < .4 || d * 10 - n < .2 ){// * (1.5 -abs((i.ro.y ))) ){
         	discard;
         }
+        col *= t.a * t.a * t.a * t.a * t.a * t.a * t.a * t.a;
+        col /= 10 * d ;
 
-        col /= 20 * length(_Ball - i.mPos);
+
 
         //if( sin( i.mPos.x * 300 ) > 0.5 && sin( i.mPos.y * 300 ) > 0.5 && sin( i.mPos.z * 300 ) > 0.5){ col = float3(0,0,0);}	
         //col = lerp( col, float3(0,0,0), pow(1-abs(dot(i.normal , i.rd)),.8));

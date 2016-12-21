@@ -20,6 +20,9 @@ public class Ring : MonoBehaviour {
   public GameObject LastScore;
   public GameObject Name;
 
+  public GameObject explosion;
+  public GameObject moon;
+
   public GameObject currentSnake;
 
   public int currentScore = 0;
@@ -45,6 +48,9 @@ public class Ring : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+     float newY = ( (float) currentScore - moon.transform.position.y) * .01f +moon.transform.position.y;
+    moon.transform.position = new Vector3( moon.transform.position.x , newY , moon.transform.position.z );
 
     if( ball.GetComponent<Ball>().frozen == false ){
 
@@ -102,10 +108,16 @@ public class Ring : MonoBehaviour {
   }
 
   void OnFloorHit( GameObject floor , GameObject ball ){
+    var emitParams = new ParticleSystem.EmitParams();
+    explosion.transform.position = ball.transform.position;
+    explosion.GetComponent<ParticleSystem>().Emit(emitParams, 10000);
     restart();
   }
 
   void OnBallEat(GameObject snake , GameObject ball){
+    var emitParams = new ParticleSystem.EmitParams();
+    explosion.transform.position = ball.transform.position;
+    explosion.GetComponent<ParticleSystem>().Emit(emitParams, 10000);
     restart();
   }
 
@@ -113,6 +125,7 @@ public class Ring : MonoBehaviour {
 
     Game.yourScore = currentScore;
     if( currentScore > Game.highScore ){ Game.highScore = currentScore; }
+    moon.GetComponent<Renderer>().material.SetInt( "_Score" , currentScore );
 
 
     HighScore.GetComponent<TextMesh>().text = "High Score: " + Game.highScore.ToString();

@@ -96,6 +96,7 @@
      <None Include="Assets\Resources\Shaders\line.shader" />
      <None Include="Assets\SteamVR\readme.txt" />
      <None Include="Assets\Wyrms\GPU\Shaders\Chunks\hsv.cginc" />
+     <None Include="Assets\Resources\Shaders\Particle.shader" />
      <None Include="Assets\SteamVR\Resources\SteamVR_ColorOut.shader" />
      <None Include="Assets\Resources\Shaders\Chunks\VertStruct.cginc" />
      <None Include="Assets\Wyrms\GPU\Shaders\Earth.shader" />

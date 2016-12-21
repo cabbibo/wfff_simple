@@ -48,8 +48,10 @@
   <ItemGroup>
      <Compile Include="Assets\Ball.cs" />
      <Compile Include="Assets\BallPassThrough.cs" />
+     <Compile Include="Assets\DeleteAllPP.cs" />
      <Compile Include="Assets\FadeMorePoints.cs" />
      <Compile Include="Assets\FloorCollide.cs" />
+     <Compile Include="Assets\PlayOnCollide.cs" />
      <Compile Include="Assets\PullToController.cs" />
      <Compile Include="Assets\Ring.cs" />
      <Compile Include="Assets\Scripts\AssignStructs.cs" />
@@ -147,6 +149,7 @@
      <None Include="Assets\Resources\Shaders\line.shader" />
      <None Include="Assets\SteamVR\readme.txt" />
      <None Include="Assets\Wyrms\GPU\Shaders\Chunks\hsv.cginc" />
+     <None Include="Assets\Resources\Shaders\Particle.shader" />
      <None Include="Assets\SteamVR\Resources\SteamVR_ColorOut.shader" />
      <None Include="Assets\Resources\Shaders\Chunks\VertStruct.cginc" />
      <None Include="Assets\Wyrms\GPU\Shaders\Earth.shader" />

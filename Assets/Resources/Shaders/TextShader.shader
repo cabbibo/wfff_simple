@@ -119,29 +119,10 @@ float3 hsv(float h, float s, float v)
     		float hit = 0;
 
         float val = tex2D(_TitleTexture , v.uv).a;
-        for( int i = 0; i < 1; i++){
-
-          float3 pos = ro + rd * (float(i) * .01 );
-
-          float2 lookup = pos.xy +.5 * float2( _Scale.x * .5 , _Scale.y);
-
-          float val = tex2D(_TitleTexture , v.uv).a;
-
-          float noiseVal = 2 * noise( pos * _Scale * 20.0 + float3( 0 , 0 , _Time.y * .1));
-
-          float total = val;// * (.8 + .4 * noiseVal)+  noiseVal * val;
-
-          /*if( total > .01){
-            col += val*10 * hsv(( float(i) + _Time.y + noiseVal * 3)/ 20.0 , 1. , 1. ) ;
-            hit = 1;
-            //break;
-          }*/
-        
-
-        }
+       
 
         if( val < .1 ){ discard; }
-        col = hsv( val + _Time.y , 1 ,1 );
+        col = hsv( val* .6 + ro.x * .1 + ro.y * .3 + _Time.y * .3 , 1 ,1 ) * val * val;
        // col = normalize( col );
 
      ///at3( 1. , 1. , 1. );

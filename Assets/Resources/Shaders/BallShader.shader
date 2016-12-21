@@ -142,7 +142,7 @@
         }
 
         if( _Asleep ==  1){
-        	col = pow(length( col ), 10 );
+        	col = pow(length( col ), 5 ) * .4;
         }
 	
         //col = lerp( col, float3(0,0,0), pow(1-abs(dot(i.normal , i.rd)),.8));

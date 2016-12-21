@@ -1,0 +1,165 @@
+fileFormatVersion: 2
+guid: 71047141442163145aa1189d4d1988ec
+timeCreated: 1482308092
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Color_Temp
+    100004: Color_Temp_2
+    100006: Cylinder
+    100008: Cylinder_2
+    100010: Cylinder_3
+    100012: Dark_Sky
+    100014: Dark_Sky_2
+    100016: File_Management
+    100018: File_Management_2
+    100020: Inner
+    100022: Inner_2
+    100024: Null
+    100026: Octane_Scatter
+    100028: Octane_Scatter_1
+    100030: Octane_Scatter_2
+    100032: OctaneCamera
+    100034: OctaneDayLight
+    100036: Outter
+    100038: Outter_2
+    100040: Sphere
+    100042: Sphere_1
+    100044: Sphere_2
+    100046: Sphere_2_MeshPart0
+    100048: Sphere_2_MeshPart1
+    100050: SPOT
+    100052: SPOT_2
+    100054: SPOTLIGHT
+    100056: SPOTLIGHT_1
+    100058: Visible_Source
+    100060: Visible_Source_2
+    400000: //RootNode
+    400002: Color_Temp
+    400004: Color_Temp_2
+    400006: Cylinder
+    400008: Cylinder_2
+    400010: Cylinder_3
+    400012: Dark_Sky
+    400014: Dark_Sky_2
+    400016: File_Management
+    400018: File_Management_2
+    400020: Inner
+    400022: Inner_2
+    400024: Null
+    400026: Octane_Scatter
+    400028: Octane_Scatter_1
+    400030: Octane_Scatter_2
+    400032: OctaneCamera
+    400034: OctaneDayLight
+    400036: Outter
+    400038: Outter_2
+    400040: Sphere
+    400042: Sphere_1
+    400044: Sphere_2
+    400046: Sphere_2_MeshPart0
+    400048: Sphere_2_MeshPart1
+    400050: SPOT
+    400052: SPOT_2
+    400054: SPOTLIGHT
+    400056: SPOTLIGHT_1
+    400058: Visible_Source
+    400060: Visible_Source_2
+    2300000: Cylinder
+    2300002: Cylinder_2
+    2300004: Cylinder_3
+    2300006: Sphere
+    2300008: Sphere_1
+    2300010: Sphere_2_MeshPart0
+    2300012: Sphere_2_MeshPart1
+    2300014: Visible_Source
+    2300016: Visible_Source_2
+    3300000: Cylinder
+    3300002: Cylinder_2
+    3300004: Cylinder_3
+    3300006: Sphere
+    3300008: Sphere_1
+    3300010: Sphere_2_MeshPart0
+    3300012: Sphere_2_MeshPart1
+    3300014: Visible_Source
+    3300016: Visible_Source_2
+    4300000: Visible_Source
+    4300002: Visible_Source_2
+    4300004: Cylinder
+    4300006: Sphere_2_MeshPart0
+    4300008: Sphere_2_MeshPart1
+    4300010: Cylinder_2
+    4300012: Sphere_1
+    4300014: Cylinder_3
+    4300016: Sphere
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

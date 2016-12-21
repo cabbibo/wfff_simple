@@ -35,6 +35,8 @@
       uniform float _MaxTraceDistance;
       uniform float _Asleep;
 
+      uniform float3 _Scale;
+
       uniform float3 _Ball;
 
 
@@ -54,7 +56,7 @@
           float3 rd       : TEXCOORD2;
           float3 camPos   : TEXCOORD3;
           float3 handL    :TEXCOORD4;
-          float3 handR    :TEXCOORD5;
+          float3 ball    :TEXCOORD5;
           float3 mPos    :TEXCOORD6;
       };
 
@@ -66,6 +68,7 @@
       #include "Chunks/matrixFunctions.cginc"
 
      
+     float3 ball;
     
 
       VertexOut vert(VertexIn v) {
@@ -85,6 +88,8 @@
 
         o.ro = v.position;
         o.rd = normalize(mul( unity_WorldToObject , float4( _WorldSpaceCameraPos ,1)).xyz - v.position );
+        
+        o.ball = mul( unity_WorldToObject , float4( _Ball ,1)).xyz;
         o.mPos = mPos;//normalize(mul( unity_WorldToObject , float4(_WorldSpaceLightPos0.xyz ,1)).xyz );
 
         return o;
@@ -105,12 +110,12 @@
       	//rd = refract( rd , norm , ior );
       	for( int i = 0; i <3; i++ ){
       		float3 pos = ro + rd * float( i ) * .5;
-
-      		float n = noise( pos * 10 + float3(0,-_Time.y* .13,0) ) * .8 + noise( pos * 50 + float3(0,-_Time.y* .1,0)) *.2 + noise( pos + float3(0,-_Time.y*.2,0) );
+          float bDist = length( (pos-ball) * _Scale );
+      		float n = noise( pos * 10  + float3(0,-_Time.y* .13,0)) * .8 + noise( pos * 50 + float3(0,-_Time.y* .1,0)) *.2 + noise( pos + float3(0,-_Time.y*.2,0) );
       			
       		//float3 dist = pos - unity_LightPosition[0];
 
-      		col+= hsv( n * 2 , .7 ,1  );
+      		col+= hsv( n * max(.5, (2 / (.4 + 80 * bDist * bDist * bDist ))) + _Time.y * .2, .7 ,1  );
 
 
       	}
@@ -125,6 +130,7 @@
       fixed4 frag(VertexOut i) : COLOR {
 
         float3 ro       = i.ro;
+        ball = i.ball;
 
         float ior = .01;
         float s= .96;
@@ -146,7 +152,16 @@
         	col = pow(length( col ), 10 );
         }
 
+        float n = noise( float3( i.uv.x , i.uv.y , _Time.y * .1 ) * 20);
+
         col /= 20 * length(_Ball - i.mPos);
+
+        if( abs( i.normal.y)< .1){
+          discard;
+        }else{
+          if( abs(i.uv.x -.5) - .4 > n * .1){ discard; }
+          if( abs(i.uv.y -.5) - .45 > n * .05){ discard; }
+        }
 
         //if( sin( i.mPos.x * 300 ) > 0.5 && sin( i.mPos.y * 300 ) > 0.5 && sin( i.mPos.z * 300 ) > 0.5){ col = float3(0,0,0);}	
         //col = lerp( col, float3(0,0,0), pow(1-abs(dot(i.normal , i.rd)),.8));

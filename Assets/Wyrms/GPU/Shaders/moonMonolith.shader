@@ -89,6 +89,8 @@
 
         float2 res;
         float2 res2;
+        float scale = 1.2;
+        pos /= scale;
 
         float3 aPos =pos - _CenterPos;
 
@@ -101,33 +103,17 @@
         res.x = hardS(  sdSphere( (pos - float3( 0, .24, 0) ) * normalize( _Scale) , .16 ) , res.x);
 */
 				
-				float3 q = mul(mul(xrotate( _Time.y ) ,zrotate(_Time.y * .89)) ,aPos) ;
+				float3 q = aPos;//mul(mul(xrotate( _Time.y ) ,zrotate(_Time.y * .89)) ,aPos) ;
 				res2 = float2( sdBox(q , float3(.3,.3,.3)) , 1);
 
-				res = float2( sdSphere(aPos, .35), 1);
+				res = res2;//float2( sdBox(aPos, .35), 1);
 				res.x -= noise( pos * 20+ float3( 0 , _Time.y , 0 ) )* .1;
 
-				res = hardS( res , res2 );
-				res = hardU( res , float2( sdSphere(aPos, .2), 3));
-
 				
-
-				//res.x = hardS(  sdPlane( aPos, float4( normalize(float3( 1 , 1, 1)) , .1) ), res.x );
-				//res.x = hardS(  sdPlane( aPos, float4( normalize(float3( -1 , -1, 1)) , .1) ), res.x );
-
-				//res.x = hardS(  sdSphere( aPos -float3(0,.3,.3), .3), res.x );
-
-				float3 dir = float3(-1,0,1);
-				float3 p1 = float3(0,0,0)-dir;
-				float3 p2 = float3(0,0,0)+dir;
-			//	res = hardS( float2(sdCapsule( aPos , p1 , p2, .2 ),2),res );
-			//	res = hardU( res , float2(sdCapsule( aPos , p1, p2, .04 ),3));
-
-        float2 hand = float2( sdSphere( (pos - handL) ,.1 ),2);
         //res = smoothU( res , hand , .1 );
      	
      		//res = float2(10000,-10);
-        
+        res.x *= scale;
         //res = ring;
         return res;
 
@@ -208,12 +194,12 @@
           float3 newR = refract( rd , norm , .9 );
 
           if( res.y == 1 ){
-          	col = texCUBE( _CubeMap , normalize( newR))+ pow(( 1 - match ),3);
+          	col = hsv( match * 20 , 1 , 1 );// (norm * .5 +.5);
 
-          }else if( res.y == 2 ){
+          }else if( res.y == 1 ){
           	col = float3(1,0,0);//cubeCol * .1;
           }else{
-						col = cubeCol * float3(.6,.3 , .1);
+						col = cubeCol * (norm * .5 +.5);//float3(.6,.3 , .1);
           }
 
           // float3( match , match , match );

@@ -94,7 +94,7 @@ float2 hardU( float2 d1, float2 d2 ){
 
 float hardU( float d1, float d2 ){
     
-  return max(d1,d2);
+  return min(d1,d2);
     
 }
 

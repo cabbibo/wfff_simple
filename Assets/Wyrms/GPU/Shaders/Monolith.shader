@@ -35,6 +35,8 @@
       uniform float  _IntersectionPrecision;
       uniform float _MaxTraceDistance;
 
+      uniform float3 _Ball;
+
       uniform samplerCUBE _CubeMap;
 
       uniform float3 _Scale;
@@ -60,6 +62,7 @@
           float3 camPos   : TEXCOORD3;
           float3 handL    :TEXCOORD4;
           float3 handR    :TEXCOORD5;
+          float3 ball    :TEXCOORD6;
       };
 
       
@@ -79,6 +82,7 @@
 
       float3 handL;
       float3 handR;
+      float3 ball;
 
 
       // Map needs to come before calcIntersection
@@ -89,28 +93,24 @@
         float2 res;
         float2 res2;
 
-        float n = noise( (pos + float3( 0 , _Time.x * .15 , 0 )) * normalize(_Scale)* 10);
-        float n2 = noise( (pos - float3( 0 , _Time.x * .3,0 )) * normalize(_Scale)* 20);
+        float n = noise( (pos + float3( 0 , _Time.x * .15 , 0 )) * normalize(_Scale)* 20);
+        float n2 = noise( (pos - float3( 0 , _Time.x * .3,0 )) * normalize(_Scale)* 40);
         res = float2(sdBox( pos , float3( .54,.54,.54) ) , 1 );
 
         res.x += n * .1 + n2 * .06;
 
-        res.x = hardS(  sdSphere( (pos - float3( 0, .24, 0) ) * normalize( _Scale) , .16 ) , res.x);
+        res = hardS(  float2(sdSphere( (pos - float3( 0, .24, -1) ) * normalize( _Scale) , .13 ),3) , res);
+        res = hardU(  float2(sdSphere( (pos - float3( 0, .24, 0 ) ) * normalize( _Scale) , .05 )- n2 * .01,2) , res);
 
-        /*float2 hand = float2( sdSphere( (pos - handL) * normalize( _Scale ) ,.03 ),2);
+        float2 hand = float2( sdSphere( (pos - ball) * normalize( _Scale ) ,.03 ),2);
         float2 resFlat = hardU( res , hand );
         float2 resSmooth = smoothU( res , hand , .15);
         float2 resSub = smoothS( hand , res , 16 );
         res = hardU( resSub , hand );
         float dif = resSmooth.x - resFlat.x;
 
-        hand = float2( sdSphere( (pos - handR) * normalize( _Scale )  ,.03 ),2);
-        resFlat = hardU( res , hand );
-        resSmooth = smoothU( res , hand , .15);
-        resSub = smoothS( hand , res , 12 );
-        res = hardU( resSub , hand );
-        dif = resSmooth.x - resFlat.x;
-        res.x -= 3*(n2 * .5+ n) * dif;*/
+    
+        res.x -= 3*(n2 * .5+ n) * dif;
       
         
         //res = ring;
@@ -144,6 +144,7 @@
         
         o.handL = mul( unity_WorldToObject , float4( _MyHandL ,1)).xyz;
         o.handR = mul( unity_WorldToObject , float4( _MyHandR ,1)).xyz;
+        o.ball = mul( unity_WorldToObject , float4( _Ball ,1)).xyz;
         return o;
 
       }
@@ -153,6 +154,7 @@
 
         handL = i.handL;
         handR = i.handR;
+        ball = i.ball;
 
         float3 ro       = i.ro;
         float3 rd       = -i.rd; 
@@ -177,8 +179,12 @@
           col = norm * .5 + .5;
           col *= ao;
 
+          col = hsv( match*1+_Time.y + pos.y, .5,1) * cubeCol;//col;
+          if( res.y == 2 ){ col = ((norm * .5 + .5 ) + hsv( pos.y+_Time.y * .1,1,1)) * cubeCol * .3;}
+          if( res.y == 3 ){ col = cubeCol * ( norm * .5 + .5);}
 
-          col =(1-match) * cubeCol * ao *ao*ao* float3( 1, .6 , .2);
+          //col *= cubeCol;
+
 
   
         }else{

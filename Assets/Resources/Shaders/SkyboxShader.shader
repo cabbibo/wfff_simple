@@ -35,6 +35,8 @@
       uniform float  _IntersectionPrecision;
       uniform float _MaxTraceDistance;
 
+      uniform int _Score;
+
 
       struct VertexIn{
          float4 position  : POSITION; 
@@ -101,21 +103,21 @@
 
       	float3 col = float3( 0 , 0 , 0 );
       	//rd = refract( rd , norm , ior );
-      	for( int i = 0; i <6; i++ ){
-      		float3 pos = ro + rd * float( i ) * .5;
+      	for( int i = 0; i <3; i++ ){
+      		float3 pos = ro + rd * float( i ) * .02;
 
-      		float n = noise( pos * 10 + float3(0,-_Time.y* .13,0) ) * .8;// + noise( pos * 10 + float3(0,-_Time.y* 3.1,0)) *.2 + noise( pos + float3(0,-_Time.y*.52,0) );
+      		float n = noise( pos * 20 * (.3 + (float(_Score)/20))+ float3(0,-_Time.y* .63 * (float(_Score)/10),0) ) * .8  + noise( pos * 60* (.3 + (float(_Score)/20)) + float3(0,-_Time.y* 1.1* (float(_Score)/10),0)) *.5;// + noise( pos + float3(0,-_Time.y*.52,0) );
       			
       		//float3 dist = pos - unity_LightPosition[0];
 
-      		col+= hsv( n * 4+_Time.y * .3 , .7 ,1  ) * n;
+      		col+= hsv( n * 2+_Time.y * .3 , .6 ,1  ) ;
 
 
       	}
 
 
 
-      	col /= 10;
+      	col /= 5;
       	return col;
 			}
 
@@ -136,8 +138,8 @@
        /* col += colR * float3(1,0,0);
         col += colG * float3(0,1,0);
         col += colB * float3(0,0,1);*/
-	
-        //col *= pow(1-abs(dot(i.normal , i.rd)),8);
+	     float m = pow(1-abs(dot(i.normal , i.rd)),4 / (float( _Score)* .5+1));//pow(1-abs(dot(i.normal , i.rd)),2 *max(0,(2+(float(_Score)/ 10))));
+        col = col * m; //lerp( col , hsv( length( col) * 10 , 1 ,1 ) * (float(_Score)/ 10) , m ); 
 
         //col = float3( 1 , i.uv.x , i.uv.y );
         fixed4 color;
