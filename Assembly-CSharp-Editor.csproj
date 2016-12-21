@@ -54,10 +54,11 @@
      <None Include="Assets\Wyrms\GPU\Shaders\BufferTailRenderer.shader" />
      <None Include="Assets\Wyrms\GPU\Shaders\Chunks\uvNormalMap.cginc" />
      <None Include="Assets\Resources\Shaders\Chunks\semLookup.cginc" />
-     <None Include="Assets\Wyrms\GPU\Shaders\spaceMonolith.shader" />
+     <None Include="Assets\Resources\Shaders\spaceMonolith.shader" />
      <None Include="Assets\Resources\Shaders\Chunks\sdfSubtract.cginc" />
      <None Include="Assets\SteamVR\Resources\SteamVR_Fade.shader" />
      <None Include="Assets\Resources\Shaders\Chunks\hsv.cginc" />
+     <None Include="Assets\Resources\Shaders\StarLine.shader" />
      <None Include="Assets\Resources\Shaders\spaceTerrain.shader" />
      <None Include="Assets\Wyrms\GPU\Shaders\caveSnake.shader" />
      <None Include="Assets\SteamVR\Resources\SteamVR_ClearAll.shader" />
@@ -74,6 +75,7 @@
      <None Include="Assets\Wyrms\GPU\Shaders\spaceSnake.shader" />
      <None Include="Assets\Wyrms\GPU\Shaders\Chunks\matrixFunctions.cginc" />
      <None Include="Assets\Wyrms\GPU\Shaders\Chunks\noise.cginc" />
+     <None Include="Assets\Resources\Shaders\Stars.shader" />
      <None Include="Assets\Resources\Shaders\Hand.shader" />
      <None Include="Assets\Wyrms\GPU\Shaders\spaceSnakeSpine.shader" />
      <None Include="Assets\Resources\Shaders\Chunks\matrixFunctions.cginc" />
