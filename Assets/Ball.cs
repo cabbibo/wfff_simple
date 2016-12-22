@@ -21,6 +21,7 @@ public class Ball : MonoBehaviour {
     if( frozen == true ){
       frozenTimer -= .1f;
       transform.position = Vector3.up;
+      GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 	
 	}

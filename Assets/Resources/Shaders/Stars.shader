@@ -48,7 +48,7 @@
         float pID = floor(fID / 6);
         float tID = float(id % 6);
 
-        float2 uv = float2( 0,0)
+        float2 uv = float2( 0,0);
         float3 offset = float3( -1 , -1, 0);
 
         if( tID == 1 ){ offset = float3( 1,  -1, 0); uv = float2(1,0);}
@@ -56,22 +56,25 @@
         if( tID == 4 ){ offset = float3( -1,  1, 0);uv = float2(0,1);}
 
 
-        float3 basePos = float3( hash( pID ) ,hash( pID * 20 )  , hash( pID * 30 ));
-        basePos += float3(-.5 , 0 , -.5);
+        float3 basePos = float3( (hash( pID ) -.5) * 2 ,hash( pID * 20 )  , (hash( pID * 30 )-.5) * 2);
+        basePos = normalize( basePos ) * hash( pID * 10);
         basePos *= _Scale;
+        //basePos += float3( 0, 1 , 0);
 
         o.ballDir = basePos - _Ball;
 
-        if( o.ballDir.y > 10 ){ basePos.y += 20; }
-        o.ballDir = basePos - _Ball;
+        /*if( o.ballDir.y > 10 ){ basePos.y += 20; }
+        o.ballDir = basePos - _Ball;*/
 
         float d = length( o.ballDir);
 
         float3 viewBPos =  mul( UNITY_MATRIX_MV , float4(basePos ,1.0f));
 
-        float s = .003 / d;
-        if( s < .005){ s = 0;}
-        s = min( s , .01 );
+        float s = 0;
+
+        if(d < .3 * length(_Ball-_WorldSpaceCameraPos.xyz)){
+        	s = (.3 * length(_Ball-_WorldSpaceCameraPos.xyz) - d) * .04;
+        }
 
         float3 fPos = viewBPos + offset* s ;
         o.worldPos = basePos;
@@ -93,6 +96,7 @@
         col *= abs(abs(v.worldPos.x) - _Scale.x * .5)/(_Scale.x* .5);
         col *= abs(abs(v.worldPos.z) - _Scale.z * .5)/(_Scale.z* .5);
 
+        //col = float3( 1,1,1);
        	//col =  (fRefl * .5 + .5 ) * cubeCol * 2 * v.col;
         
         return float4( col , 1. );

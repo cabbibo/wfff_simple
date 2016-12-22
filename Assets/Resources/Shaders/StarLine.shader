@@ -50,12 +50,9 @@
 
         float3 offset = float3( 0 , 0, 0);
 
-
-
-        float3 basePos = float3( hash( pID ) ,hash( pID * 20 )  , hash( pID * 30 ));
-        basePos += float3(-.5 , 0 , -.5);
-        basePos *= length( basePos ) * length( basePos);
-        basePos *= _Scale;;
+        float3 basePos = float3( (hash( pID ) -.5) * 2 ,hash( pID * 20 )  , (hash( pID * 30 )-.5) * 2);
+        basePos = normalize( basePos ) * hash( pID * 10);//pow(hash( pID * 10 ),1.2);
+        basePos *= _Scale;
 
         o.ballDir = basePos - _Ball;
         
@@ -101,7 +98,7 @@
         //col *= abs(basePos.y - _Scale.y)/_Scale.y;
        // col *= v.uv.x;
 
-        if( hash( v.uv.x * .01) > v.uv.x  ){
+        if( hash( v.uv.x * .01) * 2 > v.uv.x  ){
         	discard;
         }
        	//col =  (fRefl * .5 + .5 ) * cubeCol * 2 * v.col;

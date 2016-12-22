@@ -120,7 +120,7 @@ v1 = transform.position - ball.transform.position;
     if( awake == true){
       if( c.collider.tag == "Hand"){
 
-        print("YA");
+//        print("YA");
         GetComponent<AudioSource>().clip = ouch;
         GetComponent<AudioSource>().pitch = 1 / (.1f+.1f*c.relativeVelocity.magnitude);
         GetComponent<AudioSource>().volume = 1;
